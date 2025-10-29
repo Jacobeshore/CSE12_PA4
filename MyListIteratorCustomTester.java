@@ -11,6 +11,8 @@ public class MyListIteratorCustomTester {
     @Before
     public void setUp() throws Exception {
 
+    	test
+    	
     }
 
     /**
