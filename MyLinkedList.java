@@ -1,15 +1,19 @@
 import java.util.AbstractList;
+import java.util.NoSuchElementException;
+import java.util.ListIterator;
+import java.util.Iterator;
 
 /*
 Name: Jacob Shore
 Email: jshore@ucsd.edu
-PID: 19291655
+PID: A19291655
 Sources used: Textbook and lecture slides
 
 Implements a simplified version of Java's doubly linked using generic types. 
 It uses sentinel head and tail nodes, and supports various methods like adding, 
 removing, retrieving, and updating elements. Null elements will not be allowed, 
-and invalid operations will throw exceptions. 
+and invalid operations will throw exceptions. This file will also include another 
+class, MyListIterator, that implements the ListIterator interface.
 */
 
 public class MyLinkedList<E> extends AbstractList<E> {
@@ -232,7 +236,10 @@ public class MyLinkedList<E> extends AbstractList<E> {
         //removes node by connecting the previous and next node
         prevNode.setNext(nextNode);
         nextNode.setPrev(prevNode);
-        
+	    // fully detach the removed node to avoid stale links
+	    node.setNext(null);
+	    node.setPrev(null);
+	    
         //reduce size of the list
         size--;
         return node.getElement();
@@ -337,4 +344,94 @@ public class MyLinkedList<E> extends AbstractList<E> {
         }
         return -1;//element not found
     }
+    
+    /**
+     * This inner class will use an iterator for MyLinkedList.
+     * It can traverse in both directions, and can modify the list
+     * using methods like add, remove, etc.
+     */
+    protected class MyListIterator implements ListIterator<E> {
+    	
+    	/** Instance variables */
+    	Node left, right;
+    	int idx;
+    	boolean forward;
+    	boolean canRemoveOrSet;
+    
+    	/**
+    	 * Constructs a new Iterator starting before the first element. 
+    	 */
+    	public MyListIterator() {
+    		left = head; 
+            right = head.getNext();
+            idx = 0;
+            forward = true;
+            canRemoveOrSet = false;
+
+    	}
+    
+    	
+        @Override
+        public boolean hasNext() {
+            return right != tail;
+        }
+	
+        
+        @Override
+        public E next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException("No such Element");
+            }
+            
+            E data = right.data;// current node data
+            left = right; //
+            right = right.next;
+            idx++;
+            forward = true;
+            canRemoveOrSet = true;
+            return data;
+        }
+        
+        
+        @Override
+        public boolean hasPrevious() {
+            return left != head;
+        }
+        
+        
+        @Override
+        public E previous() {
+            if (!hasPrevious()) {
+                throw new NoSuchElementException();
+            }
+            
+            E data = left.data;
+            right = left;
+            left = left.prev;
+            idx--;
+            forward = false;
+            canRemoveOrSet = true;
+            return data;
+        }
+        
+        
+        @Override
+        public int previousIndex() {
+            return idx;
+        }
+	
+	    }
+	    
+	    @Override
+	    public ListIterator<E> listIterator(){
+	    	return new MyListIterator();
+	    }
+	    
+	    @Override
+	    public Iterator<E> iterator() {
+	    	return new MyListIterator();
+	    }
+    
+    
+    
 }
