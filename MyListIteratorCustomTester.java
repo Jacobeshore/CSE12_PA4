@@ -179,7 +179,7 @@ public class MyListIteratorCustomTester {
         MyLinkedList<String> list1 = new MyLinkedList<>();
         list1.add("Yo");
         MyLinkedList<String>.MyListIterator iterator1 = list1.new MyListIterator();
-        assertEquals(-1, it1.previousIndex());
+        assertEquals(-1, iterator1.previousIndex());
 
         MyLinkedList<String> empty = new MyLinkedList<>();
         MyLinkedList<String>.MyListIterator itEmpty = empty.new MyListIterator();
