@@ -31,12 +31,12 @@ public class MyListIteratorCustomTester {
     public void testNextEnd() {
     	MyLinkedList<String> list = new MyLinkedList<>();
         list.add("Yo");
-        MyLinkedList<String>.MyListIterator it = list.new MyListIterator();
+        MyLinkedList<String>.MyListIterator iterator = list.new MyListIterator();
 
-        assertEquals("Yo", it.next());
+        assertEquals("Yo", iterator.next());
 
         try {
-            it.next();
+        	iterator.next();
             fail("Calling next() at the end should throw NoSuchElementException");
         } catch (java.util.NoSuchElementException e) {
             // expected
@@ -52,10 +52,10 @@ public class MyListIteratorCustomTester {
     	MyLinkedList<String> list = new MyLinkedList<>();
         list.add("Hi");
         list.add("Hello");
-        MyLinkedList<String>.MyListIterator it = list.new MyListIterator();
+        MyLinkedList<String>.MyListIterator iterator = list.new MyListIterator();
 
         try {
-            it.previous();
+        	iterator.previous();
             fail("Calling previous() at the start should throw NoSuchElementException");
         } catch (java.util.NoSuchElementException e) {
             // expected
@@ -69,10 +69,10 @@ public class MyListIteratorCustomTester {
     public void testAddInvalid() {
     	MyLinkedList<String> list = new MyLinkedList<>();
         list.add("Hi");
-        MyLinkedList<String>.MyListIterator it = list.new MyListIterator();
+        MyLinkedList<String>.MyListIterator iterator = list.new MyListIterator();
 
         try {
-            it.add(null);
+        	iterator.add(null);
             fail("add(null) should throw NullPointerException");
         } catch (NullPointerException e) {
             // expected
@@ -87,18 +87,18 @@ public class MyListIteratorCustomTester {
     public void testCantSet() {
     	MyLinkedList<String> list = new MyLinkedList<>();
         list.add("Yo");
-        MyLinkedList<String>.MyListIterator it = list.new MyListIterator();
+        MyLinkedList<String>.MyListIterator iterator = list.new MyListIterator();
 
         try {
-            it.set("Whatsup");
+        	iterator.set("Whatsup");
             fail("set() before next/previous should throw IllegalStateException");
         } catch (IllegalStateException e) {
             // expected
         }
 
-        it.add("Bye");
+        iterator.add("Bye");
         try {
-            it.set("Dog");
+        	iterator.set("Dog");
             fail("set() right after add() should throw IllegalStateException");
         } catch (IllegalStateException e) {
             // expected
@@ -114,18 +114,18 @@ public class MyListIteratorCustomTester {
     	MyLinkedList<String> list = new MyLinkedList<>();
         list.add("Hi");
         list.add("Hello");
-        MyLinkedList<String>.MyListIterator it = list.new MyListIterator();
+        MyLinkedList<String>.MyListIterator iterator = list.new MyListIterator();
 
         try {
-            it.remove();
+        	iterator.remove();
             fail("remove() before next/previous should throw IllegalStateException");
         } catch (IllegalStateException e) {
             // expected
         }
 
-        it.add("Cat");
+        iterator.add("Cat");
         try {
-            it.remove();
+        	iterator.remove();
             fail("remove() right after add() should throw IllegalStateException");
         } catch (IllegalStateException e) {
             // expected
@@ -141,12 +141,12 @@ public class MyListIteratorCustomTester {
     	MyLinkedList<String> list = new MyLinkedList<>();
         list.add("hi");
         list.add("Hello");
-        MyLinkedList<String>.MyListIterator it = list.new MyListIterator();
+        MyLinkedList<String>.MyListIterator iterator = list.new MyListIterator();
 
-        assertEquals("hi", it.next());
-        assertEquals("Hello", it.next());
+        assertEquals("hi", iterator.next());
+        assertEquals("Hello", iterator.next());
 
-        assertFalse(it.hasNext());
+        assertFalse(iterator.hasNext());
     }
 
     /**
@@ -156,8 +156,8 @@ public class MyListIteratorCustomTester {
     public void testHasPreviousStart() {
     	MyLinkedList<String> list = new MyLinkedList<>();
         list.add("Yo");
-        MyLinkedList<String>.MyListIterator it = list.new MyListIterator();
-        assertFalse(it.hasPrevious());
+        MyLinkedList<String>.MyListIterator iterator = list.new MyListIterator();
+        assertFalse(iterator.hasPrevious());
 
         MyLinkedList<String> empty = new MyLinkedList<>();
         MyLinkedList<String>.MyListIterator itEmpty = empty.new MyListIterator();
@@ -173,12 +173,12 @@ public class MyListIteratorCustomTester {
     	MyLinkedList<String> list = new MyLinkedList<>();
         list.add("Hi");
         list.add("Hellp");
-        MyLinkedList<String>.MyListIterator it = list.new MyListIterator();
-        assertEquals(-1, it.previousIndex());
+        MyLinkedList<String>.MyListIterator iterator = list.new MyListIterator();
+        assertEquals(-1, iterator.previousIndex());
 
         MyLinkedList<String> list1 = new MyLinkedList<>();
         list1.add("Yo");
-        MyLinkedList<String>.MyListIterator it1 = list1.new MyListIterator();
+        MyLinkedList<String>.MyListIterator iterator1 = list1.new MyListIterator();
         assertEquals(-1, it1.previousIndex());
 
         MyLinkedList<String> empty = new MyLinkedList<>();
@@ -193,17 +193,17 @@ public class MyListIteratorCustomTester {
     public void testNextIndexEnd() {
     	MyLinkedList<String> list1 = new MyLinkedList<>();
         list1.add("Yo");
-        MyLinkedList<String>.MyListIterator it1 = list1.new MyListIterator();
-        assertEquals("Yo", it1.next());
-        assertEquals(1, it1.nextIndex());
+        MyLinkedList<String>.MyListIterator iterator1 = list1.new MyListIterator();
+        assertEquals("Yo", iterator1.next());
+        assertEquals(1, iterator1.nextIndex());
 
         MyLinkedList<String> list2 = new MyLinkedList<>();
         list2.add("Hi");
         list2.add("Hellp");
-        MyLinkedList<String>.MyListIterator it2 = list2.new MyListIterator();
-        assertEquals("Hi", it2.next());
-        assertEquals("Hellp", it2.next());
-        assertEquals(2, it2.nextIndex());
+        MyLinkedList<String>.MyListIterator iterator2 = list2.new MyListIterator();
+        assertEquals("Hi", iterator2.next());
+        assertEquals("Hellp", iterator2.next());
+        assertEquals(2, iterator2.nextIndex());
 
         MyLinkedList<String> empty = new MyLinkedList<>();
         MyLinkedList<String>.MyListIterator itEmpty = empty.new MyListIterator();
