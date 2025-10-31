@@ -385,7 +385,7 @@ public class MyLinkedList<E> extends AbstractList<E> {
             
             E data = right.data;// current node data
             left = right; //
-            right = right.next;
+            right = right.getNext();
             idx++;
             forward = true;
             canRemoveOrSet = true;
@@ -405,22 +405,87 @@ public class MyLinkedList<E> extends AbstractList<E> {
                 throw new NoSuchElementException();
             }
             
-            E data = left.data;
+            E data = left.getElement();
             right = left;
-            left = left.prev;
+            left = left.getPrev();
             idx--;
             forward = false;
             canRemoveOrSet = true;
             return data;
         }
         
+        @Override
+        public int nextIndex() {
+            return idx;
+        }
         
         @Override
         public int previousIndex() {
-            return idx;
+            return idx -1 ;
         }
-	
-	    }
+        
+        @Override
+        public void add(E element) {
+            if (element == null) {
+                throw new NullPointerException();
+            }
+
+            Node newNode = new Node(element);
+            newNode.setPrev(left);
+            newNode.setNext(right);
+            left.setNext(newNode);
+            right.setPrev(newNode);
+
+            left = newNode;
+            idx++;
+            size++;
+            canRemoveOrSet = false;
+        }
+        
+        @Override
+        public void set(E element) {
+            if (!canRemoveOrSet) {
+                throw new IllegalStateException();
+            }
+            if (element == null) {
+                throw new NullPointerException();
+            }
+
+            if (forward) {
+                left.setElement(element); // element  returned by next
+            } else {
+                right.setElement(element;//element returned by prev
+            }
+        }
+        
+        @Override
+        public void remove() {
+            if (!canRemoveOrSet) {
+                throw new IllegalStateException();
+            }
+
+            Node toRemove;
+            
+            if (forward) {
+                toRemove = left;
+                left = toRemove.getPrev();//uses getter
+                
+                idx--;
+            } else {
+                toRemove = right;
+                right = toRemove.getNext();
+            }
+
+            /** reconnect all the nodes */
+            Node prevNode = toRemove.getPrev();
+            Node nextNode = toRemove.getnext();
+            prevNode.setNext(nextNode);
+            nextNode.setPrev(prevNode);
+            
+            size--;
+            canRemoveOrSet = false;
+        }
+	}
 	    
 	    @Override
 	    public ListIterator<E> listIterator(){
