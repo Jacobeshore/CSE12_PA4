@@ -370,13 +370,22 @@ public class MyLinkedList<E> extends AbstractList<E> {
 
     	}
     
-    	
+    	/**
+    	 * uses boolean to check if there is a next element in the forward direction.
+    	 * 
+    	 * @return true when right does not equal tail
+    	 */
         @Override
         public boolean hasNext() {
             return right != tail;
         }
 	
-        
+        /**
+         * Makes the iterator move forward by one node and returns that element.
+         * 
+         * @return data the next element in the list
+         * @throws NoSuchElementException if there is no such element
+         */
         @Override
         public E next() {
             if (!hasNext()) {
@@ -392,13 +401,22 @@ public class MyLinkedList<E> extends AbstractList<E> {
             return data;
         }
         
-        
+        /**
+         * checks if there is an element previous to current
+         * 
+         * @return left != head, the previous element
+         */
         @Override
         public boolean hasPrevious() {
             return left != head;
         }
         
-        
+        /**
+         * moves the iterator back and return the element previous
+         * 
+         * @return data, the previous element
+         * @throws NoSuchElementException if there is no such element
+         */
         @Override
         public E previous() {
             if (!hasPrevious()) {
@@ -414,16 +432,32 @@ public class MyLinkedList<E> extends AbstractList<E> {
             return data;
         }
         
+        /**
+         * Return the index of the element next to current
+         * 
+         * @return index, the index of the element
+         */
         @Override
         public int nextIndex() {
             return idx;
         }
         
+        /**
+         * Moves back and returns the element that is previous to current
+         * 
+         * @return idx - 1, previous index
+         */
         @Override
         public int previousIndex() {
             return idx -1 ;
         }
         
+        /**
+         * Add a new element into the list where the iterator is currently
+         * 
+         * @param element, added element
+         * @throws NullPointerException if element is null
+         */
         @Override
         public void add(E element) {
             if (element == null) {
@@ -442,6 +476,13 @@ public class MyLinkedList<E> extends AbstractList<E> {
             canRemoveOrSet = false;
         }
         
+        /**
+         * find and replace the last element that was called by next or prev
+         * 
+         * @param element the element to set
+         * @throw IllefalStateException if removeOrSet is false
+         * @throw NullPointerException if element is null
+         */
         @Override
         public void set(E element) {
             if (!canRemoveOrSet) {
@@ -454,10 +495,15 @@ public class MyLinkedList<E> extends AbstractList<E> {
             if (forward) {
                 left.setElement(element); // element  returned by next
             } else {
-                right.setElement(element;//element returned by prev
+                right.setElement(element);//element returned by prev
             }
         }
         
+        /**
+         * Remove the last element called by prev or next
+         * 
+         * @throws IllegalStateException if cannot remove or set
+         */
         @Override
         public void remove() {
             if (!canRemoveOrSet) {
@@ -478,7 +524,7 @@ public class MyLinkedList<E> extends AbstractList<E> {
 
             /** reconnect all the nodes */
             Node prevNode = toRemove.getPrev();
-            Node nextNode = toRemove.getnext();
+            Node nextNode = toRemove.getNext();
             prevNode.setNext(nextNode);
             nextNode.setPrev(prevNode);
             
